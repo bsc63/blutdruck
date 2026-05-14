@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+
+<link rel="stylesheet" href="style.css">
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script>
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
+}
+</script>
+
+
+<title>Blutdruck & Gewicht Webapp</title>
+
+
+
+</head>
+<body>
+
+<h2>Blutdruck & Gewicht Webapp</h2>
+
+<!-- ========================= -->
+<!-- 1) Neueingabe + Filter   -->
+<!-- ========================= -->
+<div class="top-controls">
+
+    <div class="input-section">
+        <h3>Neue Messung</h3>
+        <input type="date" id="dateInput">
+		<input type="time" id="timeInput" step="60">
+        <input id="sys" type="number" placeholder="SYS">
+        <input id="dia" type="number" placeholder="DIA">
+        <input id="pulse" type="number" placeholder="Puls">
+        
+        <div class="weight-wrapper">
+           <input id="weight" type="number" placeholder="Gewicht">
+           <span class="unit">kg</span>
+        </div>
+
+        <input id="comment" type="text" placeholder="Kommentar">
+        <button onclick="addEntry()">Hinzufügen</button>
+    </div>
+
+    <div class="filter-section">
+        <h3>Filter</h3>
+        <label>Von:</label>
+        <input type="date" id="filterFrom">
+        <label>Bis:</label>
+        <input type="date" id="filterTo">
+        <button onclick="render()">Filter anwenden</button>
+        <button onclick="document.getElementById('filterFrom').value=''; document.getElementById('filterTo').value=''; render();">
+            Filter zurücksetzen
+        </button>
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- 2) Chart                  -->
+<!-- ========================= -->
+<div class="chart-section">
+    <canvas id="chart"></canvas>
+</div>
+
+
+<!-- ========================= -->
+<!-- 3) Datentabelle           -->
+<!-- ========================= -->
+<div class="table-section">
+    <table id="table"></table>
+</div>
+
+
+<!-- ========================= -->
+<!-- 4) Import + Export        -->
+<!-- ========================= -->
+<div class="bottom-controls">
+
+    <div class="import-section">
+        <h3>Import</h3>
+        <input type="file" id="csvfile">
+        <button onclick="importCSV()">CSV komplett neu laden</button>
+        <button onclick="appendCSV()">CSV anhängen</button>
+    </div>
+
+    <div class="export-section">
+        <h3>Export</h3>
+        <button onclick="exportCSV()">CSV exportieren</button>
+        <button onclick="exportPDF()">PDF exportieren</button>
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+
+</body>
+</html>
